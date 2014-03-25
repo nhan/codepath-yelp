@@ -11,6 +11,7 @@
 #import "YelpBusinessListing.h"
 #import "SearchResultCell.h"
 #import "FiltersViewController.h"
+#import "MMProgressHud.h"
 
 NSString * const kYelpConsumerKey = @"vxKwwcR_NMQ7WaEiQBK_CA";
 NSString * const kYelpConsumerSecret = @"33QCvh5bIF5jIHR5klQr7RtBDhQ";
@@ -72,6 +73,8 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 
 - (void)doSearchRequest
 {
+    [MMProgressHUD setPresentationStyle:MMProgressHUDPresentationStyleNone];
+    [MMProgressHUD showWithStatus:@"Loading"];
     [self.client search:self.filters success:^(AFHTTPRequestOperation *operation, id response) {
         if ([response isKindOfClass:[NSDictionary class]]) {
             id businesses = response[@"businesses"];
@@ -83,7 +86,9 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
                 [self.searchResultsTable reloadData];
             }
         }
+        [MMProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [MMProgressHUD dismiss];
         NSLog(@"error: %@", [error description]);
     }];
 }
