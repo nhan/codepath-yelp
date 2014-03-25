@@ -7,6 +7,7 @@
 //
 
 #import "SearchResultCell.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface SearchResultCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
@@ -14,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *starsImage;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoriesLabel;
-@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @end
 
 @implementation SearchResultCell
@@ -29,6 +29,16 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setBusiness:(YelpBusinessListing *)business
+{
+    _business = business;
+    self.nameLabel.text = business.name;
+    [self.mainImage setImageWithURL:business.mainImageURL];
+    [self.starsImage setImageWithURL:business.starsRatingImageURL];
+    self.addressLabel.text = business.address;
+    self.categoriesLabel.text = business.categories;
 }
 
 @end

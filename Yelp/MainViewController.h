@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
-
+@interface MainViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+// TODO: move this to a aptly named delegate
+- (void)confirmFilter:(NSDictionary*)filters;
+- (void)cancelFilter;
 @end

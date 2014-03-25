@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YelpBusinessListing.h"
 
 @interface SearchResultCell : UITableViewCell
-
+@property (strong, nonatomic) YelpBusinessListing* business;
 @end
