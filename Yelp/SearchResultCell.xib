@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="275" id="KGk-i7-Jjw" customClass="SearchResultCell">
+            <rect key="frame" x="0.0" y="0.0" width="496" height="275"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="496" height="274"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y2x-58-DeK" userLabel="Main Image">
+                        <rect key="frame" x="5" y="5" width="100" height="100"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="100" id="33r-LH-S4T"/>
+                            <constraint firstAttribute="width" constant="100" id="xbH-O6-BeM"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dtr-co-8XU" userLabel="Stars Rating">
+                        <rect key="frame" x="110" y="31" width="84" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="84" id="1dB-E5-87L"/>
+                            <constraint firstAttribute="height" constant="17" id="BNy-Il-bc3"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Business Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSj-1b-iRG" userLabel="Business Name">
+                        <rect key="frame" x="110" y="5" width="120" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eE5-cR-e9k" userLabel="Address">
+                        <rect key="frame" x="110" y="53" width="64" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EpF-Yr-ML0" userLabel="Categories">
+                        <rect key="frame" x="110" y="79" width="84" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDy-Pl-mxC" userLabel="Distance">
+                        <rect key="frame" x="424" y="5" width="67" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dtr-co-8XU" firstAttribute="top" secondItem="hSj-1b-iRG" secondAttribute="bottom" constant="5" id="2Ai-bn-oab"/>
+                    <constraint firstItem="eE5-cR-e9k" firstAttribute="top" secondItem="dtr-co-8XU" secondAttribute="bottom" constant="5" id="6Gg-47-94J"/>
+                    <constraint firstItem="EpF-Yr-ML0" firstAttribute="top" secondItem="eE5-cR-e9k" secondAttribute="bottom" constant="5" id="73Q-AY-OYt"/>
+                    <constraint firstItem="eE5-cR-e9k" firstAttribute="leading" secondItem="EpF-Yr-ML0" secondAttribute="leading" id="CCX-Zy-9c7"/>
+                    <constraint firstItem="BDy-Pl-mxC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Ny2-LB-Yeb"/>
+                    <constraint firstItem="hSj-1b-iRG" firstAttribute="leading" secondItem="y2x-58-DeK" secondAttribute="trailing" constant="5" id="UtS-fk-Jrh"/>
+                    <constraint firstItem="hSj-1b-iRG" firstAttribute="top" secondItem="y2x-58-DeK" secondAttribute="top" id="XEZ-Mg-9sY"/>
+                    <constraint firstItem="y2x-58-DeK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="XOn-je-u6a"/>
+                    <constraint firstItem="eE5-cR-e9k" firstAttribute="leading" secondItem="hSj-1b-iRG" secondAttribute="leading" id="bpt-PN-3qS"/>
+                    <constraint firstAttribute="trailing" secondItem="BDy-Pl-mxC" secondAttribute="trailing" constant="5" id="eUO-tC-KkE"/>
+                    <constraint firstItem="eE5-cR-e9k" firstAttribute="leading" secondItem="dtr-co-8XU" secondAttribute="leading" id="fgj-vJ-Kup"/>
+                    <constraint firstItem="y2x-58-DeK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="rHQ-fF-BIV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="eE5-cR-e9k" id="gYb-nS-AdL"/>
+                <outlet property="categoriesLabel" destination="EpF-Yr-ML0" id="Qj7-5h-ZNQ"/>
+                <outlet property="distanceLabel" destination="BDy-Pl-mxC" id="ZS2-ZW-mJs"/>
+                <outlet property="mainImage" destination="y2x-58-DeK" id="Lxc-Nl-UlZ"/>
+                <outlet property="nameLabel" destination="hSj-1b-iRG" id="TeY-ms-y8F"/>
+                <outlet property="starsImage" destination="dtr-co-8XU" id="H1m-7R-xuK"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
