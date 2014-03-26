@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainViewController.h"
+
+@protocol FiltersDelegate <NSObject>
+- (NSDictionary*) filters;
+- (void)didConfirmFilter:(NSDictionary*)filters;
+- (void)didCancelFilter;
+@end
 
 @interface FiltersViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
-@property (strong, nonatomic) NSMutableDictionary* filters;
-
-// TODO: abstract out a delegate interface for this
-@property (strong, nonatomic) MainViewController *delegate;
+@property (weak, nonatomic) id<FiltersDelegate> delegate;
 @end
+

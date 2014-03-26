@@ -6,12 +6,14 @@
 //  Copyright (c) 2014 codepath. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "MainViewController.h"
 #import "YelpClient.h"
 #import "YelpBusinessListing.h"
 #import "SearchResultCell.h"
 #import "FiltersViewController.h"
 #import "MMProgressHud.h"
+
 
 NSString * const kYelpConsumerKey = @"vxKwwcR_NMQ7WaEiQBK_CA";
 NSString * const kYelpConsumerSecret = @"33QCvh5bIF5jIHR5klQr7RtBDhQ";
@@ -22,8 +24,9 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 @property (nonatomic, strong) YelpClient *client;
 @property (nonatomic, strong) NSMutableArray* searchResults;
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTable;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) NSMutableDictionary *filters;
+//@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
 @implementation MainViewController
@@ -33,13 +36,18 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
     self.searchResults = [[NSMutableArray alloc] init];
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.filters = [[NSMutableDictionary alloc] init];
-        self.filters[@"term"] = @"Italian";
-        self.filters[@"location"] = @"San Francisco";
+//        self.locationManager = [[CLLocationManager alloc] init];
+//        self.locationManager.distanceFilter = kCLDistanceFilterNone;
+//        self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+//        [self.locationManager startUpdatingLocation];
+//        
+//        float latitude = self.locationManager.location.coordinate.latitude;
+//        float longitude = self.locationManager.location.coordinate.longitude;
+//        NSString* coordinates = [NSString stringWithFormat:@"%f,%f", latitude, longitude];
         
-        // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
+        self.filters = [[NSMutableDictionary alloc] initWithDictionary:@{@"term":@"food", @"location":@"San Francisco"}];
         self.client = [[YelpClient alloc] initWithConsumerKey:kYelpConsumerKey consumerSecret:kYelpConsumerSecret accessToken:kYelpToken accessSecret:kYelpTokenSecret];
-        [self doSearchRequest];
+        [self doSearch];
     }
     
     return self;
@@ -50,15 +58,14 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
     [super viewDidLoad];
 
     UINib *resultCellNib = [UINib nibWithNibName:@"SearchResultCell" bundle:nil];
-    [self.searchResultsTable registerNib:resultCellNib forCellReuseIdentifier:@"Test"];
+    [self.searchResultsTable registerNib:resultCellNib forCellReuseIdentifier:@"SearchResultCell"];
     self.searchResultsTable.delegate = self;
     self.searchResultsTable.dataSource = self;
-    self.searchBar.delegate = self;
     
-    UISearchBar *searchBar = [[UISearchBar alloc] init];
-    [searchBar sizeToFit];
-    searchBar.delegate = self;
-    self.navigationItem.titleView = searchBar;
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.delegate = self;
+    [self.searchBar sizeToFit];
+    self.navigationItem.titleView = self.searchBar;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filter"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
@@ -71,7 +78,7 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)doSearchRequest
+- (void)doSearch
 {
     [MMProgressHUD setPresentationStyle:MMProgressHUDPresentationStyleNone];
     [MMProgressHUD showWithStatus:@"Loading"];
@@ -97,62 +104,48 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 {
     // TODO: probably shouldn't initialize this every time?
     FiltersViewController *filtersController = [[FiltersViewController alloc] init];
-
-    
-    // TODO: should probably move this logic to setter
-    [self deepCopyFilterFrom:self.filters to:filtersController.filters];
-    
     filtersController.delegate = self;
 
-    
     // wrap filtersController in a nav controller to get cancel and search buttons
     UINavigationController *wrapperNavController = [[UINavigationController alloc] initWithRootViewController:filtersController];
     [self presentViewController:wrapperNavController animated:YES completion: nil];
 }
 
-// TODO: write a better copy method(s) somewhere else
-- (void)deepCopyFilterFrom:(NSDictionary*)from to:(NSMutableDictionary*)to
+- (void)didConfirmFilter:(NSDictionary*)filters
 {
-    [self setNilableValueInDict:to key:@"term" value:from[@"term"]];
-    [self setNilableValueInDict:to key:@"location" value:from[@"location"]];
-    [self setNilableValueInDict:to key:@"radius_filter" value:from[@"radius_filter"]];
-    [self setNilableValueInDict:to key:@"sort" value:from[@"sort"]];
-}
-
-// TODO: should probably write category for this
-// deletes value from dict if nil
-- (void)setNilableValueInDict:(NSMutableDictionary*)dict key:(id)key value:(id)value
-{
-    if (value) {
-        dict[key] = value;
-    } else {
-        [dict removeObjectForKey:key];
-    }
-}
-
-- (void)confirmFilter:(NSDictionary*)filters
-{
-    [self deepCopyFilterFrom:filters to:self.filters];
+    self.filters = [filters mutableCopy];
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self doSearchRequest];
+    [self doSearch];
 }
 
-- (void)cancelFilter
+- (void)didCancelFilter
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UISearchBarDelegate
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.text = self.filters[@"term"];
+    self.searchBar.showsCancelButton = YES;
+}
+
+- (void) searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchBar.showsCancelButton = NO;
+    [searchBar resignFirstResponder];
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    self.searchBar.showsCancelButton = NO;
     self.filters[@"term"] = searchBar.text;
-    [self doSearchRequest];
+    [self doSearch];
     [searchBar resignFirstResponder];
 }
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.searchResults.count;
@@ -160,7 +153,7 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Test"];
+    SearchResultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchResultCell"];
 
     cell.business = self.searchResults[indexPath.row];
     return cell;
