@@ -16,10 +16,18 @@
     // TODO: find a mapping library so we don't have to do this by hand
     ret.name = dict[@"name"];
     ret.numReviews = [dict[@"review_count"] integerValue];
-    ret.starsRatingImageURL = [NSURL URLWithString:dict[@"rating_img_url"]];
+    ret.starsRatingImageURL = [NSURL URLWithString:dict[@"rating_img_url_large"]];
     ret.mainImageURL = [NSURL URLWithString:dict[@"image_url"]];
     
-    NSString* address = dict[@"location"][@"display_address"][0];
+    
+    NSArray* addresses = dict[@"location"][@"display_address"];
+    NSString* address = addresses[0];
+    
+    // add neighborhood or city if we have it
+    if (addresses.count>2 && addresses[2]) {
+        address = [address stringByAppendingString:@", "];
+        address = [address stringByAppendingString:addresses[2]];
+    }
     ret.address = address;
     
     NSMutableArray *categories = [[NSMutableArray alloc] init];

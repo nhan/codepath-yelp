@@ -10,11 +10,6 @@
 #import <UIImageView+AFNetworking.h>
 
 @interface SearchResultCell ()
-@property (weak, nonatomic) IBOutlet UIImageView *mainImage;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *starsImage;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *categoriesLabel;
 @end
 
 @implementation SearchResultCell
@@ -39,6 +34,7 @@
     [self.starsImage setImageWithURL:business.starsRatingImageURL];
     self.addressLabel.text = business.address;
     self.categoriesLabel.text = business.categories;
+    self.numRatingsLabel.text = [NSString stringWithFormat:@"%d reviews", business.numReviews];
 }
 
 @end

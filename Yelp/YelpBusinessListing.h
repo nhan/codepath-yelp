@@ -15,7 +15,6 @@
 @property (atomic, strong) NSURL *mainImageURL;
 @property (atomic, strong) NSString *address;
 @property (atomic, strong) NSString *categories;
-@property (atomic, strong) NSString *distance;
 
 + (YelpBusinessListing*) listingFromDictionary:(NSDictionary*) dict;
 @end

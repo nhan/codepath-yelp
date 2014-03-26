@@ -11,4 +11,12 @@
 
 @interface SearchResultCell : UITableViewCell
 @property (strong, nonatomic) YelpBusinessListing* business;
+
+// needed to get measurements
+@property (weak, nonatomic) IBOutlet UIImageView *mainImage;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *starsImage;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *categoriesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numRatingsLabel;
 @end

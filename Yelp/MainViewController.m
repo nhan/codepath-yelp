@@ -26,6 +26,8 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 @property (weak, nonatomic) IBOutlet UITableView *searchResultsTable;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, strong) NSMutableDictionary *filters;
+
+@property (nonatomic, strong) SearchResultCell *guideCell;
 //@property (nonatomic, strong) CLLocationManager *locationManager;
 @end
 
@@ -56,8 +58,9 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     UINib *resultCellNib = [UINib nibWithNibName:@"SearchResultCell" bundle:nil];
+    self.guideCell = [resultCellNib instantiateWithOwner:self options:nil][0];
     [self.searchResultsTable registerNib:resultCellNib forCellReuseIdentifier:@"SearchResultCell"];
     self.searchResultsTable.delegate = self;
     self.searchResultsTable.dataSource = self;
@@ -162,11 +165,22 @@ NSString * const kYelpTokenSecret = @"mqtKIxMIR4iBtBPZCmCLEb-Dz3Y";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: get font and actual width from a real label
-    CGSize maximumLabelSize = CGSizeMake(205, MAXFLOAT);
+
     YelpBusinessListing *business = self.searchResults[indexPath.row];
-    CGRect nameRect = [business.name boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17]} context:nil];
-    CGRect addressRect = [business.address boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17]} context:nil];
-    CGRect categoriesRect = [business.categories boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17]} context:nil];
+    
+    UILabel *nameLabel = self.guideCell.nameLabel;
+    UILabel *addressLabel = self.guideCell.addressLabel;
+    UILabel *categoriesLabel = self.guideCell.categoriesLabel;
+    
+    CGSize maximumNameLabelSize = CGSizeMake(nameLabel.frame.size.width, MAXFLOAT);
+    CGRect nameRect = [business.name boundingRectWithSize:maximumNameLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : nameLabel.font} context:nil];
+    
+    CGSize maximumAddressLabelSize = CGSizeMake(addressLabel.frame.size.width, MAXFLOAT);
+    CGRect addressRect = [business.address boundingRectWithSize:maximumAddressLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : addressLabel.font} context:nil];
+    
+    CGSize maximumCategoriesLabelSize = CGSizeMake(addressLabel.frame.size.width, MAXFLOAT);
+    CGRect categoriesRect = [business.categories boundingRectWithSize:maximumCategoriesLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : categoriesLabel.font} context:nil];
+    
     CGFloat ret = 5 + nameRect.size.height + 5 + 17 + 5 + addressRect.size.height + 5 + categoriesRect.size.height + 5;
     
     return ret < 110 ? 110 : ret;
